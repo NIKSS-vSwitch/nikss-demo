@@ -14,6 +14,8 @@ deploy:
 	@sudo nsenter --net=/var/run/netns/switch psabpf-ctl pipeline add-port id 1 eth1
 	@sudo nsenter --net=/var/run/netns/switch psabpf-ctl pipeline add-port id 1 eth2
 	@echo "Ports successfully added"
+	@sudo scripts/routing.sh
+	@echo "Done"
 
 clean:
 	@sudo nsenter --net=/var/run/netns/switch psabpf-ctl pipeline unload id 1 || true

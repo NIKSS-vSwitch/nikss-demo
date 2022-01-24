@@ -229,13 +229,13 @@ control DemoIngress(inout headers hdr,
     ActionSelector(PSA_HashAlgorithm_t.CRC16, 32w512, 32w16) as;
 
     action forward_balance(PortId_t port, mac_addr_t src_addr, mac_addr_t dst_addr,
-                              ipv4_addr_t dst_ip) {
+                           ipv4_addr_t dst_ip) {
         forward(port, src_addr, dst_addr);
         hdr.ipv4.dst_addr = dst_ip;
     }
 
     action forward_set_vip(PortId_t port, mac_addr_t src_addr, mac_addr_t dst_addr,
-                              ipv4_addr_t vip) {
+                           ipv4_addr_t vip) {
         forward(port, src_addr, dst_addr);
         hdr.ipv4.src_addr = vip;
     }
