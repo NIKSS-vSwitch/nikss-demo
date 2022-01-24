@@ -28,3 +28,27 @@ Deploy PSA-eBPF program and insert eBPF programs with forwarding rules (no virtu
 make deploy
 ```
 
+## Load-balancer demo
+
+Set up rules for load-balancing and server virtual IP address:
+```bash
+make load-balancer
+```
+
+Run HTTP servers, one in every container. Issue these commands, every in separate terminal:
+```bash
+make load-balancer-server1
+make load-balancer-server2
+```
+
+Run client, which makes some requests to the server(s) on virtual IP:
+```bash
+make load-balancer-client
+```
+This should take about 20 second to execute. When client stops, stop servers with
+Ctrl-C to see number of processed requests per server.
+
+Disaable load-balancer and remove virtual IP:
+```bash
+make stop-load-balancer
+```

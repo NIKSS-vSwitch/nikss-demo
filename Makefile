@@ -23,3 +23,20 @@ clean:
 	@rm out.* || true
 
 .PHONY: start compile deploy clean
+
+load-balancer:
+	@sudo ./load-balancer/start.sh
+
+load-balancer-server1:
+	@sudo ip netns exec server1 ./load-balancer/server.py
+
+load-balancer-server2:
+	@sudo ip netns exec server2 ./load-balancer/server.py
+
+load-balancer-client:
+	@sudo ip netns exec client ./load-balancer/client.sh
+
+stop-load-balancer:
+	@sudo ./load-balancer/stop.sh
+
+.PHONY: load-balancer load-balancer-server1 load-balancer-server2 load-balancer-client stop-load-balancer
