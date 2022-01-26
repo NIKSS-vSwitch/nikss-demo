@@ -39,4 +39,17 @@ load-balancer-client:
 stop-load-balancer:
 	@sudo ./load-balancer/stop.sh
 
+rate-limiter:
+	@sudo ./rate-limiter/start.sh
+
+rate-limiter-server1:
+	@sudo ip netns exec server1 ./rate-limiter/server.sh
+
+rate-limiter-client:
+	@sudo ip netns exec client ./rate-limiter/client.sh
+
+stop-rate-limiter:
+	@sudo ./rate-limiter/stop.sh
+
 .PHONY: load-balancer load-balancer-server1 load-balancer-server2 load-balancer-client stop-load-balancer
+.PHONY: rate-limiter rate-limiter-server1 rate-limiter-client stop-rate-limiter

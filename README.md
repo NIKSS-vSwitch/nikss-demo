@@ -52,3 +52,20 @@ Disaable load-balancer and remove virtual IP:
 ```bash
 make stop-load-balancer
 ```
+
+## Rate-limiter demo
+Set up a meter rule:
+```bash
+make rate-limiter
+```
+Run iperf server on server no. 1:
+```bash
+make rate-limiter-server1
+```
+
+Run iperf client and observe results:
+```bash
+make rate-limiter-client
+```
+
+
