@@ -37,13 +37,13 @@ make load-balancer
 
 Run HTTP servers, one in every container. Issue these commands, every in separate terminal:
 ```bash
-make load-balancer-server1
-make load-balancer-server2
+make http-server-1
+make http-server-2
 ```
 
 Run client, which makes some requests to the server(s) on virtual IP:
 ```bash
-make load-balancer-client
+make http-client
 ```
 This should take about 20 second to execute. When client stops, stop servers with
 Ctrl-C to see number of processed requests per server.
@@ -60,12 +60,12 @@ make rate-limiter
 ```
 Run iperf server on server no. 1:
 ```bash
-make rate-limiter-server1
+make iperf-server
 ```
 
 Run iperf client and observe results:
 ```bash
-make rate-limiter-client
+make iperf-client
 ```
 
 

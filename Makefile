@@ -27,13 +27,13 @@ clean:
 load-balancer:
 	@sudo ./load-balancer/start.sh
 
-load-balancer-server1:
+http-server-1:
 	@sudo ip netns exec server1 ./load-balancer/server.py
 
-load-balancer-server2:
+http-server-2:
 	@sudo ip netns exec server2 ./load-balancer/server.py
 
-load-balancer-client:
+http-client:
 	@sudo ip netns exec client ./load-balancer/client.sh
 
 stop-load-balancer:
@@ -42,10 +42,10 @@ stop-load-balancer:
 rate-limiter:
 	@sudo ./rate-limiter/start.sh
 
-rate-limiter-server1:
+iperf-server:
 	@sudo ip netns exec server1 ./rate-limiter/server.sh
 
-rate-limiter-client:
+iperf-client:
 	@sudo ip netns exec client ./rate-limiter/client.sh
 
 stop-rate-limiter:

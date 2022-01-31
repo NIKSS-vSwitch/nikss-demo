@@ -2,4 +2,4 @@
 
 . ./config.env
 
-iperf -s -u
+iperf -s -u -i 1
