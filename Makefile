@@ -51,5 +51,17 @@ iperf-client:
 stop-rate-limiter:
 	@sudo ./rate-limiter/stop.sh
 
+configure-traffic-manager:
+	@sudo ./qos/configure.sh
+
+set-priority:
+	@sudo ./qos/set-priority.sh
+
+clear-priority:
+	@sudo ./qos/clear-priority.sh
+
+ping:
+	@sudo ip netns exec client ping 17.0.0.1
+
 .PHONY: load-balancer load-balancer-server1 load-balancer-server2 load-balancer-client stop-load-balancer
 .PHONY: rate-limiter rate-limiter-server1 rate-limiter-client stop-rate-limiter

@@ -265,6 +265,22 @@ control DemoIngress(inout headers hdr,
         psa_implementation = as;
     }
 
+    action set_priority() {
+        ostd.class_of_service = (ClassOfService_t) 10;
+    }
+
+    table qos_classifier {
+        key = {
+            hdr.ipv4.protocol : exact;
+        }
+        actions = {
+            NoAction;
+            set_priority;
+        }
+        size = 4;
+        default_action = NoAction;
+    }
+
     apply {
         if (hdr.arp.isValid()) {
             if (hdr.arp_ipv4.isValid()) {
@@ -276,6 +292,7 @@ control DemoIngress(inout headers hdr,
         }
 
         tbl_routing.apply();
+        qos_classifier.apply();
 
         hdr.ipv4.ttl = hdr.ipv4.ttl - 1;
         if (hdr.ipv4.ttl < 2) {
