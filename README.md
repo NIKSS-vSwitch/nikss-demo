@@ -28,7 +28,7 @@ Deploy PSA-eBPF program and insert eBPF programs with forwarding rules (no virtu
 make deploy
 ```
 
-## Load-balancer demo
+## Load-balancing
 
 Set up rules for load-balancing and server virtual IP address:
 ```bash
@@ -53,7 +53,7 @@ Disaable load-balancer and remove virtual IP:
 make stop-load-balancer
 ```
 
-## Rate-limiter demo
+## Rate-limiter
 Set up a meter rule:
 ```bash
 make rate-limiter
@@ -68,4 +68,31 @@ Run iperf client and observe results:
 make iperf-client
 ```
 
+## Traffic prioritization
 
+Configure traffic manager (*tc qdisc*) with QoS classes and treatment.
+
+Start ping between client and server1:
+
+```
+make ping
+```
+
+Create congestion on the link between client and server1:
+
+```
+make iperf-server
+make iperf-client
+```
+
+Set priority for ICMP traffic:
+
+```
+make set-priority
+```
+
+Clear priority for ICMP traffic:
+
+```
+make clear-priority
+```
