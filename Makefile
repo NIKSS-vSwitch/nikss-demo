@@ -20,7 +20,7 @@ deploy:
 clean:
 	@sudo nsenter --net=/var/run/netns/switch psabpf-ctl pipeline unload id 1 || true
 	@./scripts/stop-infra.sh || true
-	@rm demo.* || true
+	@rm demo.c demo.o demo.bc || true
 
 .PHONY: start compile deploy clean
 
