@@ -4,64 +4,66 @@ start:
 	@./scripts/start-infra.sh
 
 compile:
-	@make -f ${P4C_REPO}/backends/ebpf/runtime/kernel.mk BPFOBJ=demo.o P4FILE=demo.p4 ARGS="-DPSA_PORT_RECIRCULATE=2" P4ARGS="--Wdisable=unused" psa
+	@p4c-ebpf --arch psa --Wdisable=unused -o demo.c demo.p4
+	@clang -O2 -g -c -DBTF -emit-llvm -o demo.bc demo.c
+	@llc -march=bpf -mcpu=generic -filetype=obj -o demo.o demo.bc
 
 deploy:
-	@sudo nsenter --net=/var/run/netns/switch psabpf-ctl pipeline load id 1 demo.o
+	@nsenter --net=/var/run/netns/switch nikss-ctl pipeline load id 1 demo.o
 	@echo "Adding ports to switch..."
-	@sudo nsenter --net=/var/run/netns/switch psabpf-ctl add-port pipe 1 dev psa_recirc
-	@sudo nsenter --net=/var/run/netns/switch psabpf-ctl add-port pipe 1 dev eth0
-	@sudo nsenter --net=/var/run/netns/switch psabpf-ctl add-port pipe 1 dev eth1
-	@sudo nsenter --net=/var/run/netns/switch psabpf-ctl add-port pipe 1 dev eth2
+	@nsenter --net=/var/run/netns/switch nikss-ctl add-port pipe 1 dev psa_recirc
+	@nsenter --net=/var/run/netns/switch nikss-ctl add-port pipe 1 dev eth0
+	@nsenter --net=/var/run/netns/switch nikss-ctl add-port pipe 1 dev eth1
+	@nsenter --net=/var/run/netns/switch nikss-ctl add-port pipe 1 dev eth2
 	@echo "Ports successfully added"
-	@sudo scripts/routing.sh
+	@scripts/routing.sh
 	@echo "Done"
 
 clean:
-	@sudo nsenter --net=/var/run/netns/switch psabpf-ctl pipeline unload id 1 || true
+	@nsenter --net=/var/run/netns/switch nikss-ctl pipeline unload id 1 || true
 	@./scripts/stop-infra.sh || true
 	@rm demo.c demo.o demo.bc || true
 
 .PHONY: start compile deploy clean
 
 load-balancer:
-	@sudo ./load-balancer/start.sh
+	@./load-balancer/start.sh
 
 http-server-1:
-	@sudo ip netns exec server1 ./load-balancer/server.py
+	@ip netns exec server1 ./load-balancer/server.py
 
 http-server-2:
-	@sudo ip netns exec server2 ./load-balancer/server.py
+	@ip netns exec server2 ./load-balancer/server.py
 
 http-client:
-	@sudo ip netns exec client ./load-balancer/client.sh
+	@ip netns exec client ./load-balancer/client.sh
 
 stop-load-balancer:
-	@sudo ./load-balancer/stop.sh
+	@./load-balancer/stop.sh
 
 rate-limiter:
-	@sudo ./rate-limiter/start.sh
+	@./rate-limiter/start.sh
 
 iperf-server:
-	@sudo ip netns exec server1 ./rate-limiter/server.sh
+	@ip netns exec server1 ./rate-limiter/server.sh
 
 iperf-client:
-	@sudo ip netns exec client ./rate-limiter/client.sh
+	@ip netns exec client ./rate-limiter/client.sh
 
 stop-rate-limiter:
-	@sudo ./rate-limiter/stop.sh
+	@./rate-limiter/stop.sh
 
 configure-traffic-manager:
-	@sudo ./qos/configure.sh
+	@./qos/configure.sh
 
 set-priority:
-	@sudo ./qos/set-priority.sh
+	@./qos/set-priority.sh
 
 clear-priority:
-	@sudo ./qos/clear-priority.sh
+	@./qos/clear-priority.sh
 
 ping:
-	@sudo ip netns exec client ping 17.0.0.1
+	@ip netns exec client ping 17.0.0.1
 
 .PHONY: load-balancer load-balancer-server1 load-balancer-server2 load-balancer-client stop-load-balancer
 .PHONY: rate-limiter rate-limiter-server1 rate-limiter-client stop-rate-limiter

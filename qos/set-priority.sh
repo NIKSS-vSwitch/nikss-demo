@@ -6,4 +6,4 @@ echo "Setting priority for ICMP traffic..."
 
 set -xe
 
-psabpf-ctl table add pipe "$PIPELINE" DemoIngress_qos_classifier id 1 key 1
+nikss-ctl table add pipe "$PIPELINE" DemoIngress_qos_classifier id 1 key 1
