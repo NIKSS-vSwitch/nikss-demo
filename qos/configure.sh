@@ -16,3 +16,4 @@ for intf in "${SWITCH_INTFS[@]}" ; do
   # dump QoS configuration of an interface
   # ip netns exec switch tc -s class show dev $intf
 done
+

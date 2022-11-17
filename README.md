@@ -72,6 +72,10 @@ make iperf-client
 
 Configure traffic manager (*tc qdisc*) with QoS classes and treatment.
 
+```
+make configure-traffic-manager
+```
+
 Start ping between client and server1:
 
 ```
