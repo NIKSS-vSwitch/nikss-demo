@@ -2,7 +2,7 @@
 
 set -xe
 
-sudo ip netns del client
-sudo ip netns del server1
-sudo ip netns del server2
-sudo ip netns del switch
+ip netns del client
+ip netns del server1
+ip netns del server2
+ip netns del switch

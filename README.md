@@ -2,11 +2,13 @@
 
 ## Steps to run demo
 
-Install the following packages on your Linux OS:
+Run the docker image with p4c compiler and nikss-ctl installed:
 
 ```
-apt install curl 
+docker run -it --privileged --rm -v "$(pwd)":/nikss osinstom/nikss
 ```
+
+Whole demo runs inside that container, so every later command must be executed in the container, e.g. prepended with `docker container exec -it <container_name>`.
 
 Boot up the demo infrastructure:
 
@@ -19,7 +21,7 @@ The above script will create 4 Linux namespaces: `switch`, `client`, `server1`, 
 Compile the P4 program (replace path to p4c repository):
 
 ```bash
-make P4C_REPO=../p4c-ebpf-psa compile
+make compile
 ```
 
 Deploy PSA-eBPF program and insert eBPF programs with forwarding rules (no virtual IP yet):
@@ -68,9 +70,18 @@ Run iperf client and observe results:
 make iperf-client
 ```
 
+To remove meter rule:
+```bash
+make stop-rate-limiter
+```
+
 ## Traffic prioritization
 
 Configure traffic manager (*tc qdisc*) with QoS classes and treatment.
+
+```
+make configure-traffic-manager
+```
 
 Start ping between client and server1:
 
