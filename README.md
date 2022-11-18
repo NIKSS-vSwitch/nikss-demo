@@ -8,6 +8,8 @@ Run the docker image with p4c compiler and nikss-ctl installed:
 docker run -it --privileged --rm -v "$(pwd)":/nikss osinstom/nikss
 ```
 
+Whole demo runs inside that container, so every later command must be executed in the container, e.g. prepended with `docker container exec -it <container_name>`.
+
 Boot up the demo infrastructure:
 
 ```bash
