@@ -1,4 +1,4 @@
-# PSA-eBPF demo
+# NIKSS demo
 
 ## Steps to run demo
 
