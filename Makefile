@@ -22,7 +22,7 @@ deploy:
 clean:
 	@nsenter --net=/var/run/netns/switch nikss-ctl pipeline unload id 1 || true
 	@./scripts/stop-infra.sh || true
-	@rm demo.c demo.o demo.bc || true
+	@rm -f demo.c demo.o demo.bc || true
 
 .PHONY: start compile deploy clean
 
